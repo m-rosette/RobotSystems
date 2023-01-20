@@ -32,11 +32,11 @@ logging.getLogger().setLevel(logging.DEBUG)
 time.sleep(0.2)
 
 # user and User home directory
-User = os.popen('echo ${SUDO_USER:-$LOGNAME}').readline().strip()
-UserHome = os.popen('getent passwd %s | cut -d: -f 6'%User).readline().strip()
+# User = os.popen('echo ${SUDO_USER:-$LOGNAME}').readline().strip()
+# UserHome = os.popen('getent passwd %s | cut -d: -f 6'%User).readline().strip()
 # print(User)  # pi
 # print(UserHome) # /home/pi
-config_file = '%s/.config/picar-x/picar-x.conf'%UserHome
+# config_file = '%s/.config/picar-x/picar-x.conf'%UserHome
 
 
 class Picarx(object):
