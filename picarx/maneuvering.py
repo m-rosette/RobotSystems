@@ -7,7 +7,7 @@ def forward_to_backward(speed, steering_angle, action_time=1):
     """ Forward and Backward
     """
     movement = Picarx()
-    movement.set_wheel_vel_scale(0)
+    movement.set_wheel_vel_scale(steering_angle)
     movement.set_dir_servo_angle(0)
 
     # Step 1: Forward with steering
@@ -23,7 +23,6 @@ def forward_to_backward(speed, steering_angle, action_time=1):
     movement.stop()
 
     # Step 3: Reset car values
-    movement.set_wheel_vel_scale(0)
     movement.set_dir_servo_angle(0)
 
 
