@@ -74,21 +74,21 @@ def k_turn(speed, steering_angle):
     # Step 1: turn and move forward
     movement.set_dir_servo_angle(steering_angle)
     movement.forward(speed)
-    time.sleep(1)
+    time.sleep(1.5)
     movement.stop()
     time.sleep(0.25)
 
     # Step 2: turn opposite dir and backup
     movement.set_dir_servo_angle(-steering_angle)
     movement.backward(speed)
-    time.sleep(1)
+    time.sleep(1.5)
     movement.stop()
     time.sleep(0.25)
 
     # Step 3: turn opposite dir and go forward
     movement.set_dir_servo_angle(steering_angle)
     movement.forward(speed)
-    time.sleep(1)
+    time.sleep(1.5)
     movement.set_dir_servo_angle(0)
     movement.stop()
 
