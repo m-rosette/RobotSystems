@@ -11,32 +11,26 @@ import atexit
 
 try:
     from robot_hat import *
-    from robot_hat import __reset_mcu__
-    __reset_mcu__ ()
-    time . sleep (0.01)
+    from robot_hat import reset_mcu
+    reset_mcu()
+    time.sleep(0.01)
 except ImportError :
     print (" This computer does not appear to be a PiCar - X system ( robot_hat is not present ) . Shadowing hardware calls with substitute functions ")
     from sim_robot_hat import *
 
-# from robot_hat import Grayscale_Module, Ultrasonic
-# from robot_hat.utils import reset_mcu
-
-
-
-logging_format = "%(asctime)s: %(message)s"
-logging.basicConfig(format = logging_format, level = logging.INFO, datefmt ="%H:%M:%S")
-logging.getLogger().setLevel(logging.DEBUG)
-
+# logging_format = "%(asctime)s: %(message)s"
+# logging.basicConfig(format = logging_format, level = logging.INFO, datefmt ="%H:%M:%S")
+# logging.getLogger().setLevel(logging.DEBUG)
 
 # reset_mcu()
 time.sleep(0.2)
 
 # user and User home directory
-# User = os.popen('echo ${SUDO_USER:-$LOGNAME}').readline().strip()
-# UserHome = os.popen('getent passwd %s | cut -d: -f 6'%User).readline().strip()
+User = os.popen('echo ${SUDO_USER:-$LOGNAME}').readline().strip()
+UserHome = os.popen('getent passwd %s | cut -d: -f 6'%User).readline().strip()
 # print(User)  # pi
 # print(UserHome) # /home/pi
-# config_file = '%s/.config/picar-x/picar-x.conf'%UserHome
+config_file = '%s/.config/picar-x/picar-x.conf'%UserHome
 
 
 class Picarx(object):
