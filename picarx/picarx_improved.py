@@ -167,7 +167,7 @@ class Picarx(object):
         wheel_base = 11.6 # cm
         wheel_length = 9.5 # cm
 
-        dist_center_rot = wheel_length * math.tan(((math.pi/2)-steering_angle)) + (wheel_base/2)
+        dist_center_rot = (wheel_length / math.tan(((math.pi/2)-steering_angle))) - (wheel_base/2)
         wheel_vel_scaling = (dist_center_rot - (wheel_base/2)) / dist_center_rot
         return wheel_vel_scaling
         
