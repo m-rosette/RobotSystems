@@ -27,5 +27,5 @@ if __name__ == "__main__":
             print("Movement sequence completed")
         else:
             print("Calibration:")
-            move.calibrate_steering(input("Enter forward speed: "))
+            move.calibrate_steering(int(input("Enter forward speed: ")))
             print("Calibration sequence completed")
