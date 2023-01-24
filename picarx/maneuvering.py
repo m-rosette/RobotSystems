@@ -1,7 +1,10 @@
 import time
 from picarx_improved import Picarx
 
-# marcus@picar14.engr.oregonstate.edu
+
+def calibrate_steering(calibration_value):
+    Picarx.dir_servo_angle_calibration(calibration_value)
+
 
 def forward_to_backward(speed, steering_angle, action_time=1):
     """ Forward and Backward
