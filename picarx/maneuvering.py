@@ -8,6 +8,7 @@ def calibrate_steering(speed):
         movement.set_dir_servo_angle(0)
         movement.forward(speed)
         time.sleep(1)
+        movement.stop()
         improve = input("Are you happy with calibration? (y/n): ")
         if improve == 'y':
             break
