@@ -11,5 +11,5 @@ if __name__ == '__main__':
         gray_data = sensor.get_grayscale_data()
         print(gray_data)
         print(sensor.get_line_status(gray_data))
-        time.sleep(0.1)
+        time.sleep(0.5)
 
