@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 
 
-import picarx_improved as px
+from picarx_improved import Picarx
 import time
 
 
 if __name__ == '__main__':
     while 1:
-        sensor = px()
-        gray_data = px.Grayscale_Module.get_grayscale_data()
+        sensor = Picarx()
+        gray_data = sensor.Picarx.get_grayscale_data()
         print(gray_data)
-        print(px.Grayscale_Module.get_line_status(gray_data))
+        print(sensor.get_line_status(gray_data))
         time.sleep(0.1)
 
