@@ -57,18 +57,21 @@ def parallel_park(speed, steering_angle):
     movement.backward(speed)
     time.sleep(0.5)
     movement.stop()
+    time.sleep(0.25)
 
     # Step 3: straighten out, continue backward
     movement.set_dir_servo_angle(0)
     movement.backward(speed)
     time.sleep(0.5)
     movement.stop()
+    time.sleep(0.25)
 
     # Step 4: turn away from curb, continue backward
     movement.set_dir_servo_angle(-steering_angle)
     movement.backward(speed)
     time.sleep(0.5)
     movement.stop()
+    time.sleep(0.25)
 
     # Step 5:
     movement.set_dir_servo_angle(0)
