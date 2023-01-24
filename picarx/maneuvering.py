@@ -13,7 +13,7 @@ def calibrate_steering(speed):
         if improve == 'y':
             break
         else:
-            movement.dir_servo_angle_calibration(input("Enter steering calibration value: "))
+            movement.dir_servo_angle_calibration(int(input("Enter steering calibration value: ")))
 
 
 def forward_to_backward(speed, steering_angle, action_time=1):
