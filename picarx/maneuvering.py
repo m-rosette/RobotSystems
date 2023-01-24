@@ -3,15 +3,16 @@ from picarx_improved import Picarx
 
 
 def calibrate_steering(speed):
+    movement = Picarx()
     while 1:
-        Picarx.set_dir_servo_angle(0)
-        Picarx.forward(speed)
+        movement.set_dir_servo_angle(0)
+        movement.forward(speed)
         time.sleep(1)
         improve = input("Are you happy with calibration? (y/n): ")
         if improve == 'y':
             break
         else:
-            Picarx.dir_servo_angle_calibration(input("Enter steering calibration value: "))
+            movement.dir_servo_angle_calibration(input("Enter steering calibration value: "))
 
 
 def forward_to_backward(speed, steering_angle, action_time=1):
