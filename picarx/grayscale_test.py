@@ -12,7 +12,7 @@ if __name__ == '__main__':
         gray_data = sensor.get_grayscale_data()
         np_array = np.array(gray_data)
         normalized = np.linalg.norm(np_array)
-        print(np_array / normalized)
+        print(round(np_array / normalized, 3))
         # print(sensor.get_line_status(gray_data))
         time.sleep(0.5)
 
