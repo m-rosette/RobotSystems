@@ -44,6 +44,7 @@ if __name__=='__main__':
         while True:
             gm_val_list = px.get_grayscale_data()
             gm_val_list = [abs(i - reference) for i in gm_val_list]
+            
             gm_state = px.get_line_status(gm_val_list)
             print("gm_val_list: %s, %s"%(gm_val_list, gm_state))
             sleep(0.1)
