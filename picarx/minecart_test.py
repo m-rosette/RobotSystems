@@ -43,7 +43,7 @@ if __name__=='__main__':
     px.set_grayscale_reference(reference)
     try:
         while True:
-            gm_val_list = np.linalg(np.array(px.get_grayscale_data()))
+            gm_val_list = np.linalg.norm(np.array(px.get_grayscale_data()))
             
             gm_state = px.get_line_status(gm_val_list)
             print("gm_val_list: %s, %s"%(gm_val_list, gm_state))
