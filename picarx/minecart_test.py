@@ -12,6 +12,7 @@
 '''
 from picarx_improved import Picarx
 from time import sleep
+import atexit
 
 px = Picarx()
 # px = Picarx(grayscale_pins=['A0', 'A1', 'A2']) 
@@ -26,10 +27,10 @@ offset = 20
 def outHandle():
     global last_state, current_state
     if last_state == 'left':
-        px.set_dir_servo_angle(-30)
+        px.set_dir_servo_angle(-5)
         px.backward(10)
     elif last_state == 'right':
-        px.set_dir_servo_angle(30)
+        px.set_dir_servo_angle(5)
         px.backward(10)
     while True:
         gm_val_list = px.get_grayscale_data()
@@ -64,6 +65,7 @@ if __name__=='__main__':
                 outHandle()
     finally:
         px.stop()
+        atexit.register(px.stop())
 
 
                 
