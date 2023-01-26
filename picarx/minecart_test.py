@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-
 '''
     Line Following program for Picar-X:
 
@@ -12,12 +11,8 @@
 '''
 from picarx_improved import Picarx
 from time import sleep
-import atexit
 
 px = Picarx()
-# px = Picarx(grayscale_pins=['A0', 'A1', 'A2']) 
-px.set_grayscale_reference(1000)  
-# px.grayscale.reference = 1400  
 last_state = None
 current_state = None
 px_power = 10
@@ -27,10 +22,10 @@ offset = 20
 def outHandle():
     global last_state, current_state
     if last_state == 'left':
-        px.set_dir_servo_angle(-5)
+        px.set_dir_servo_angle(-30)
         px.backward(10)
     elif last_state == 'right':
-        px.set_dir_servo_angle(5)
+        px.set_dir_servo_angle(30)
         px.backward(10)
     while True:
         gm_val_list = px.get_grayscale_data()
@@ -43,6 +38,8 @@ def outHandle():
 
 
 if __name__=='__main__':
+    reference = float(input("Enter gray scale reference value: "))
+    px.set_grayscale_reference(reference)
     try:
         while True:
             gm_val_list = px.get_grayscale_data()
@@ -65,7 +62,6 @@ if __name__=='__main__':
                 outHandle()
     finally:
         px.stop()
-        atexit.register(px.stop())
 
 
                 
