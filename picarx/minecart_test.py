@@ -43,9 +43,10 @@ if __name__=='__main__':
     try:
         while True:
             gm_val_list = px.get_grayscale_data()
-            gm_val_list = [i - reference for i in gm_val_list]
+            gm_val_list = [abs(i - reference) for i in gm_val_list]
             gm_state = px.get_line_status(gm_val_list)
             print("gm_val_list: %s, %s"%(gm_val_list, gm_state))
+            sleep(0.1)
 
             if gm_state != "stop":
                 last_state = gm_state
