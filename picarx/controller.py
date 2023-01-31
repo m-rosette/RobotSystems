@@ -25,8 +25,8 @@ class Controller(object):
 
 if __name__ == '__main__':
     picar = Picarx()
-    sensor = GrayscaleSensor()
     controller = Controller(picar, 50)
+    sensor = GrayscaleSensor()
     interpreter = Interpreter(0.0, 1)
 
     while True:

@@ -334,10 +334,9 @@ class I2C(_Basic_class):
             result = recv
         else:
             return False
-        # for i in range(len(result)):
-        #     result[i] = self._i2c_read_byte(addr)
-        # return result
-        pass
+        for i in range(len(result)):
+            result[i] = self._i2c_read_byte(addr)
+        return result
 
     def mem_write(self, data, addr, memaddr, timeout=5000, addr_size=8): #memaddr match to chn
         if isinstance(data, bytearray):
