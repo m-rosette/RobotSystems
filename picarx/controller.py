@@ -15,6 +15,20 @@ class Controller(object):
         self.picar.set_dir_servo_angle(self.steering_angle)
 
         return self.steering_angle
+    
+    def cont_bus(self, bus, delay):
+        """
+        Function to run the line follow function in a loop using the interpret
+        bus to read direction value messages for each loop and change the steer
+        angle
+        :param px: The picar class
+        :param bus: The bus class
+        :param delay: The time delay in seconds between each loop
+        """
+        while True:
+            rel_dir = bus.read()
+            self.line_follow(rel_dir)
+            time.sleep(delay)
 
 
 if __name__ == '__main__':
@@ -25,6 +39,6 @@ if __name__ == '__main__':
 
     while True:
         sensor_data = sensor.get_grayscale_data()
-        interp_direction = interpreter.edge_detect(sensor_data)
+        interp_direction = interpreter.detect_edge(sensor_data)
         angle = controller.line_follow(interp_direction)
         time.sleep(0.5)

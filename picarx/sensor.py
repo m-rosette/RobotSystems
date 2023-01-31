@@ -14,3 +14,9 @@ class GrayscaleSensor(object):
         adc_value_list.append(self.chn_1.read())
         adc_value_list.append(self.chn_2.read())
         return adc_value_list
+
+    def sensor_bus(self, bus, delay):
+        while True:
+            adc_list = self.get_grayscale_data()
+            bus.write(adc_list)
+            time.sleep(delay)

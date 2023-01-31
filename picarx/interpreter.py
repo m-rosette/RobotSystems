@@ -29,3 +29,11 @@ class Interpreter(object):
             correction = 0
         
         return correction
+
+    
+    def interpret_bus(self, sens_bus, inter_bus, delay):
+        while True:
+            gry_list = sens_bus.read()
+            rel_dir = self.edge_detect(gry_list)
+            inter_bus.write(rel_dir)
+            time.sleep(delay)
