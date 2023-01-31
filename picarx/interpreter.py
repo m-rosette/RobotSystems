@@ -21,9 +21,9 @@ class Interpreter(object):
             direction = gray_norm[0] - gray_norm[2]
 
             if self.polarity == 1:
-                correction_scale = (max(gray_norm) - np.mean(gray_norm)) * (2/3)
+                correction_scale = (max(gray_norm) - np.mean(gray_norm)) #* (2/3)
             elif self.polarity == -1:
-                correction_scale = (min(gray_norm) - np.mean(gray_norm)) * (2/3)
+                correction_scale = (min(gray_norm) - np.mean(gray_norm)) #* (2/3)
             correction = self.polarity * correction_scale * direction
         else:
             correction = 0
@@ -31,9 +31,9 @@ class Interpreter(object):
         return correction
 
     
-    def interpret_bus(self, sens_bus, inter_bus, delay):
+    def interpret_communication(self, sensor_com, interpret_com, delay):
         while True:
-            gry_list = sens_bus.read()
-            rel_dir = self.edge_detect(gry_list)
-            inter_bus.write(rel_dir)
+            gray_list = sensor_com.read()
+            correction_dir = self.detect_edge(gray_list)
+            interpret_com.write(correction_dir)
             time.sleep(delay)

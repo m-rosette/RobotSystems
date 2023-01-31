@@ -16,17 +16,9 @@ class Controller(object):
 
         return self.steering_angle
     
-    def cont_bus(self, bus, delay):
-        """
-        Function to run the line follow function in a loop using the interpret
-        bus to read direction value messages for each loop and change the steer
-        angle
-        :param px: The picar class
-        :param bus: The bus class
-        :param delay: The time delay in seconds between each loop
-        """
+    def controller_com(self, communication, delay):
         while True:
-            rel_dir = bus.read()
+            rel_dir = communication.read()
             self.line_follow(rel_dir)
             time.sleep(delay)
 
