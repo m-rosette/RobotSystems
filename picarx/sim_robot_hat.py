@@ -232,38 +232,38 @@ class I2C(_Basic_class):
     @_retry_wrapper
     def _i2c_write_byte(self, addr, data):   # i2C 写系列函数
         self._debug("_i2c_write_byte: [0x{:02X}] [0x{:02X}]".format(addr, data))
-        return self._smbus.write_byte(addr, data)
-        
+        # result = self._smbus.write_byte(addr, data)
+        pass
             
     @_retry_wrapper
     def _i2c_write_byte_data(self, addr, reg, data):
         self._debug("_i2c_write_byte_data: [0x{:02X}] [0x{:02X}] [0x{:02X}]".format(addr, reg, data))
-        return self._smbus.write_byte_data(addr, reg, data)
-        
+        # result = self._smbus.write_byte_data(addr, reg, data)
+        pass
     
     @_retry_wrapper
     def _i2c_write_word_data(self, addr, reg, data):
         self._debug("_i2c_write_word_data: [0x{:02X}] [0x{:02X}] [0x{:04X}]".format(addr, reg, data))
-        return self._smbus.write_word_data(addr, reg, data)
-        
+        # result = self._smbus.write_word_data(addr, reg, data)
+        pass
     
     @_retry_wrapper
     def _i2c_write_i2c_block_data(self, addr, reg, data):
         self._debug("_i2c_write_i2c_block_data: [0x{:02X}] [0x{:02X}] {}".format(addr, reg, data))
-        return self._smbus.write_i2c_block_data(addr, reg, data)
-        
+        # result = self._smbus.write_i2c_block_data(addr, reg, data)
+        pass
     
     @_retry_wrapper
     def _i2c_read_byte(self, addr):   # i2C 读系列函数
         self._debug("_i2c_read_byte: [0x{:02X}]".format(addr))
-        return self._smbus.read_byte(addr)
-        
+        # result = self._smbus.read_byte(addr)
+        pass
 
     @_retry_wrapper
     def _i2c_read_i2c_block_data(self, addr, reg, num):
         self._debug("_i2c_read_i2c_block_data: [0x{:02X}] [0x{:02X}] [{}]".format(addr, reg, num))
-        return self._smbus.read_i2c_block_data(addr, reg, num)
-        
+        # result = self._smbus.read_i2c_block_data(addr, reg, num)
+        pass
 
     @_retry_wrapper
     def is_ready(self, addr):
