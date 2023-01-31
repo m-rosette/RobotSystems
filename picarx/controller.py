@@ -31,7 +31,7 @@ if __name__ == '__main__':
     interpreter = Interpreter(0.0, 1)
 
     while True:
-        sensor_data = sensor.get_grayscale_data()
+        sensor_data = picar.get_grayscale_data()
         interp_direction = interpreter.detect_edge(sensor_data)
         angle = controller.line_follow(interp_direction)
         time.sleep(0.5)
