@@ -19,11 +19,13 @@ class Interpreter(object):
         # Test range relative to senor sensitivity
         if grayscale_diff > self.sensitivity:
             direction = gray_norm[0] - gray_norm[2]
+            print(direction)
 
             if self.polarity == 1:
-                correction_scale = (max(gray_norm) - np.mean(gray_norm)) #* (2/3)
+                correction_scale = (max(gray_norm) - np.mean(gray_norm)) * (2/3)
             elif self.polarity == -1:
-                correction_scale = (min(gray_norm) - np.mean(gray_norm)) #* (2/3)
+                correction_scale = (min(gray_norm) - np.mean(gray_norm)) * (2/3)
+
             correction = self.polarity * correction_scale * direction
         else:
             correction = 0
