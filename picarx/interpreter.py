@@ -11,7 +11,7 @@ class Interpreter(object):
 
     def detect_edge(self, grayscale_list):
         # Normalize incoming grayscale data
-        gray_norm = [float(gray_val)/max(grayscale_list) for gray_val in grayscale_list]
+        gray_norm = [float(gray_val) / max(grayscale_list) for gray_val in grayscale_list]
 
         # Find the range of normalized values
         grayscale_diff = max(gray_norm) - min(gray_norm)
@@ -37,3 +37,15 @@ class Interpreter(object):
             correction_dir = self.detect_edge(gray_list)
             interpret_com.write(correction_dir)
             time.sleep(delay)
+
+
+if __name__ == '__main__':
+    sensor = GrayscaleSensor()
+    interpretor = Interpreter(0.0, -1)
+
+    while True:
+        list = sensor.get_grayscale_data()
+        print(list)
+        rel_dir = interpretor.edge_detect(list)
+        print("{:.3f}".format(rel_dir))
+        time.sleep(1)
