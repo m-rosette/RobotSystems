@@ -10,9 +10,10 @@ if __name__ == '__main__':
     while 1:
         sensor = Picarx()
         gray_data = sensor.get_grayscale_data()
-        np_array = np.array(gray_data)
-        normalized = np.linalg.norm(np_array)
-        print(np.round(np_array / normalized, 3))
+        print(gray_data)
+        # np_array = np.array(gray_data)
+        # normalized = np.linalg.norm(np_array)
+        # print(np.round(np_array / normalized, 3))
         # print(sensor.get_line_status(gray_data))
         time.sleep(0.5)
 
