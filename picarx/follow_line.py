@@ -17,6 +17,6 @@ if __name__ == '__main__':
         gray_data = sensor.get_grayscale_data()
         edge_detect = interpreter.detect_edge(gray_data)
         angle_correction = controller.line_follow(edge_detect)
-
+        # px.forward(40)
         time.sleep(0.1)
 
