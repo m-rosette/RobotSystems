@@ -8,7 +8,6 @@ import time
 
 class GrayscaleSensor(object):
     def __init__(self):
-        pass
         self.chn_0 = ADC("A0")
         self.chn_1 = ADC("A1")
         self.chn_2 = ADC("A2")
@@ -20,8 +19,8 @@ class GrayscaleSensor(object):
         adc_value_list.append(self.chn_2.read())
         return adc_value_list
 
-    def sensor_com(self, communication, delay):
+    def sensor_bus(self, bus, delay):
         while True:
             gray_list = self.get_grayscale_data()
-            communication.write(gray_list)
+            bus.write(gray_list)
             time.sleep(delay)

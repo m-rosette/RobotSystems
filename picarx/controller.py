@@ -17,9 +17,9 @@ class Controller(object):
 
         return self.steering_angle
     
-    def controller_com(self, communication, delay):
+    def controller_bus(self, bus, delay):
         while True:
-            correction_dir = communication.read()
+            correction_dir = bus.read()
             self.line_follow(correction_dir)
             time.sleep(delay)
 

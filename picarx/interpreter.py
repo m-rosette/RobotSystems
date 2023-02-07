@@ -33,11 +33,11 @@ class Interpreter(object):
         return correction
 
     
-    def interpret_communication(self, sensor_com, interpret_com, delay):
+    def interpreter_bus(self, sensor_bus, interpret_bus, delay):
         while True:
-            gray_list = sensor_com.read()
+            gray_list = sensor_bus.read()
             correction_dir = self.detect_edge(gray_list)
-            interpret_com.write(correction_dir)
+            interpret_bus.write(correction_dir)
             time.sleep(delay)
 
 
