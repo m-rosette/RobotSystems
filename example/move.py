@@ -1,12 +1,12 @@
-import sys
-sys.path.append(r'/home/marcus/RobotSystems/picarx')
+# import sys
+# sys.path.append(r'/home/marcus/RobotSystems/picarx')
 from picarx import Picarx
 import time
 
 
 if __name__ == "__main__":
+    px = Picarx()
     try:
-        px = Picarx()
         px.forward(30)
         time.sleep(0.5)
         for angle in range(0,35):
