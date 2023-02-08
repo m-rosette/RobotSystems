@@ -1,6 +1,6 @@
-# import sys
-# sys.path.append(r'/home/marcus/RobotSystems/picarx')
-from picarx import Picarx
+import sys
+sys.path.append(r'/home/marcus/RobotSystems/picarx')
+from picarx_improved import Picarx
 import time
 
 
