@@ -191,7 +191,8 @@ class Camera():
         mask = self.mask_generation()
         line_edge = self.detect_edge(mask)
         cropped_line_edge = self.region_of_interest(line_edge)
-        lane_line = self.find_line(cropped_line_edge)
+        line_segments = self.detect_line_segments(cropped_line_edge)
+        lane_line = self.find_line(line_segments)
         lane_image = self.display_lines(lane_line)
         return lane_line, lane_image
 
