@@ -1,3 +1,5 @@
+import sys
+sys.path.append(r'/home/marcus/RobotSystems/picarx')
 from picarx import Picarx
 import time
 
