@@ -9,7 +9,9 @@
         px.set_grayscale_reference(1400)  
 
 '''
-from picarx import Picarx
+import sys
+sys.path.append(r'/home/marcus/RobotSystems/picarx')
+from picarx_improved import Picarx
 from time import sleep
 
 px = Picarx()
