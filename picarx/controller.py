@@ -1,5 +1,4 @@
-from sensor import GrayscaleSensor
-from sim_robot_hat import Grayscale_Module
+from sensor import Sensor
 from interpreter import Interpreter
 from picarx_improved import Picarx
 import time
@@ -27,7 +26,7 @@ class Controller(object):
 if __name__ == '__main__':
     picar = Picarx()
     controller = Controller(picar, 5)
-    sensor = GrayscaleSensor()
+    sensor = Sensor()
     interpreter = Interpreter(0.0, 1)
 
     while True:

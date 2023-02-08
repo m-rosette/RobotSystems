@@ -1,5 +1,5 @@
 from controller import Controller
-from sensor import GrayscaleSensor
+from sensor import Sensor
 from interpreter import Interpreter
 import time
 from picarx_improved import Picarx
@@ -9,7 +9,7 @@ if __name__ == '__main__':
     px = Picarx()
     input_scale = float(input("Enter scaling factor: "))
     input_polarity = float(input("Enter polarity: "))
-    sensor = GrayscaleSensor()
+    sensor = Sensor()
     controller = Controller(px, input_scale)
     interpreter = Interpreter(0.0, input_polarity)
 
