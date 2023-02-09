@@ -5,6 +5,14 @@ import time
 from picarx_improved import Picarx
 
 
+def follow_line(sensor, interpreter, controller):
+    while True:
+        gray_data = sensor.get_grayscale_data()
+        edge_detect = interpreter.detect_edge(gray_data)
+        controller.line_follow(edge_detect)
+        time.sleep(0.1)
+
+
 if __name__ == '__main__':
     px = Picarx()
     input_scale = float(input("Enter scaling factor: "))
@@ -12,11 +20,5 @@ if __name__ == '__main__':
     sensor = Sensor()
     controller = Controller(px, input_scale)
     interpreter = Interpreter(0.0, input_polarity)
-
-    while True:
-        gray_data = sensor.get_grayscale_data()
-        edge_detect = interpreter.detect_edge(gray_data)
-        angle_correction = controller.line_follow(edge_detect)
-        # px.forward(40)
-        time.sleep(0.1)
-
+    
+    follow_line(sensor, interpreter, controller)
