@@ -76,13 +76,13 @@ class Sensor(object):
 
             for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
                 img = frame.array
-                cv2.imshow("raw image", img)
+                # cv2.imshow("raw image", img)
                 self.pi_camera.frame = img
 
                 lane_line, lane_image = self.pi_camera.image_processing()
                 self.camera_output = lane_line
 
-                # cv2.imshow("mask frame", lane_image)  # OpenCV image show
+                cv2.imshow("mask frame", lane_image)  # OpenCV image show
                 rawCapture.truncate(0)  # Release cache
                 
                 k = cv2.waitKey(1) & 0xFF
