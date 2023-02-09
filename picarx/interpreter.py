@@ -56,6 +56,6 @@ if __name__ == '__main__':
     while True:
         list = sensor.get_grayscale_data()
         # print(list)
-        correction_dir = interpretor.edge_detect(list)
+        correction_dir = interpretor.detect_edge(list)
         print("{:.3f}".format(correction_dir))
         time.sleep(1)
