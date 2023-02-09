@@ -178,7 +178,7 @@ class Camera():
 
         line_fit_average = np.average(line_fit, axis=0)
         if len(line_fit) > 0:
-            lane_line.append(self.make_points(self.frame, line_fit_average))
+            lane_line.append(self.make_points(line_fit_average))
 
         return lane_line
 
