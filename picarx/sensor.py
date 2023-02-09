@@ -103,8 +103,8 @@ class Camera():
         hsv = cv2.cvtColor(self.frame, cv2.COLOR_BGR2HSV)
         lower_blue = np.array([30, 40, 0])
         upper_blue = np.array([150, 255, 255])
-
-        return cv2.inRange(hsv, lower_blue, upper_blue)
+        mask = cv2.inRange(hsv, lower_blue, upper_blue)
+        return mask
     
     def detect_edge(self, frame):
         # detect edges
