@@ -76,13 +76,13 @@ class Sensor(object):
 
             for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
                 img = frame.array
+                cv2.imshow("raw image", img)
                 self.pi_camera.frame = img
-                #cv2.imshow("video", img)  # OpenCV image show
 
                 lane_line, lane_image = self.pi_camera.image_processing()
                 self.camera_output = lane_line
 
-                cv2.imshow("mask frame", lane_image)  # OpenCV image show
+                # cv2.imshow("mask frame", lane_image)  # OpenCV image show
                 rawCapture.truncate(0)  # Release cache
                 
                 k = cv2.waitKey(1) & 0xFF
@@ -103,6 +103,7 @@ class Camera():
         hsv = cv2.cvtColor(self.frame, cv2.COLOR_BGR2HSV)
         lower_blue = np.array([30, 40, 0])
         upper_blue = np.array([150, 255, 255])
+
         return cv2.inRange(hsv, lower_blue, upper_blue)
     
     def detect_edge(self, frame):
