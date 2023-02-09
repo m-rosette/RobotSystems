@@ -124,7 +124,7 @@ class Camera():
         ]], np.int32)
 
         cv2.fillPoly(mask, polygon, 255)
-        cv2.imshow("mask", mask)
+        # cv2.imshow("mask", mask)
         masked_image = cv2.bitwise_and(canny, mask)
         return masked_image
 
