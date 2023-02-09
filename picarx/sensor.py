@@ -101,7 +101,7 @@ class Camera():
     def mask_generation(self):
         # filter for blue lane lines
         hsv = cv2.cvtColor(self.frame, cv2.COLOR_BGR2HSV)
-        lower_blue = np.array([30, 40, 0])
+        lower_blue = np.array([60, 40, 40])
         upper_blue = np.array([150, 255, 255])
         mask = cv2.inRange(hsv, lower_blue, upper_blue)
         return mask
@@ -133,20 +133,22 @@ class Camera():
         rho = 1  # precision in pixel, i.e. 1 pixel
         angle = np.pi / 180  # degree in radian, i.e. 1 degree
         min_threshold = 10  # minimal of votes
-        line_segments = cv2.HoughLinesP(cropped_edges, rho, angle, min_threshold, np.array([]), minLineLength=8,
-                                        maxLineGap=4)
-        if line_segments is not None:
-            for line_segment in line_segments:
-                logging.debug('detected line_segment:')
-                logging.debug("%s of length %s" % (line_segment, self.length_of_line_segment(line_segment[0])))
+        maxLineGap = 10
+        minLineLength = 80
+        line_segments = cv2.HoughLinesP(cropped_edges, rho, angle, min_threshold, np.array([]), minLineLength,
+                                        maxLineGap)
+        # if line_segments is not None:
+        #     for line_segment in line_segments:
+        #         logging.debug('detected line_segment:')
+        #         logging.debug("%s of length %s" % (line_segment, self.length_of_line_segment(line_segment[0])))
         return line_segments
 
     def length_of_line_segment(self, line):
         x1, y1, x2, y2 = line
         return math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)
 
-    def make_points(self, frame, line):
-        height, width, _ = frame.shape
+    def make_points(self, line):
+        height, width, _ = self.frame.shape
         slope, intercept = line
         y1 = height  # bottom of the frame
         y2 = int(y1 * 1 / 2)  # make points from middle of the frame down
