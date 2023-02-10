@@ -60,20 +60,20 @@ read_grayscale = rr.Producer(
     "Read grayscale data")
 
 # Wrap the ultrasonic sensor into a producer
-read_ultrasonic = rr.Producer(
-    sensor.get_distance,  # function that will generate data
-    ultrasonic_bus,  # output data bus
-    delay,  # delay between data generation cycles
-    terminator_bus,  # bus to watch for termination signal
-    "Read ultrasonic data")
-
-# Wrap the ultrasonic sensor into a producer
 read_camera = rr.Producer(
     sensor.live_camera,  # function that will generate data
     camera_bus,  # output data bus
     delay,  # delay between data generation cycles
     terminator_bus,  # bus to watch for termination signal
     "Read camera data")
+
+# Wrap the ultrasonic sensor into a producer
+read_ultrasonic = rr.Producer(
+    sensor.get_distance,  # function that will generate data
+    ultrasonic_bus,  # output data bus
+    delay,  # delay between data generation cycles
+    terminator_bus,  # bus to watch for termination signal
+    "Read ultrasonic data")
 
 # Wrap the multiplier function into a consumer-producer
 interp_grayscale = rr.ConsumerProducer(
