@@ -46,6 +46,7 @@ class Interpreter(object):
 
             correction_dir = self.detect_edge(gray_list)
             interpret_bus.write(correction_dir)
+            interpret_bus.write(camera_output)
             time.sleep(delay)
 
 
