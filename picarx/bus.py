@@ -26,7 +26,7 @@ class Exexute():
         self.grayscale_bus = Bus()
         self.ultrasonic_bus = Bus()
         self.camera_bus = Bus()
-        self.line_bus = Bus()
+        self.interp_bus = Bus()
 
         self.sensor = Sensor()
         self.interpreter = Interpreter()
@@ -35,16 +35,16 @@ class Exexute():
     def executor(self):
         delay = 0.1
         while True:
-            with concurrent.futures.ThreadPoolExecutor(max_workers = 2) as executor:
+            with concurrent.futures.ThreadPoolExecutor(max_workers = 3) as executor:
                 eGrayscale = executor.submit(self.sensor.grayscale_bus, self.grayscale_bus, delay)
-                eUltrasonic = executor.submit(self.sensor.ultrasonic_bus, self.ultrasonic_bus, delay)
-                eCamera = executor.submit(self.sensor.camera_bus, self.camera_bus, delay)
-                eInterpreter = executor.submit(self.interpreter.interpreter_bus, self.grayscale_bus, self.camera_bus, self.line_bus, delay)
-                eController = executor.submit(self.controller.controller_bus, self.line_bus, self.ultrasonic_bus, delay)
+                # eUltrasonic = executor.submit(self.sensor.ultrasonic_bus, self.ultrasonic_bus, delay)
+                # eCamera = executor.submit(self.sensor.camera_bus, self.camera_bus, delay)
+                eInterpreter = executor.submit(self.interpreter.interpreter_bus, self.grayscale_bus, self.interp_bus, delay)
+                eController = executor.submit(self.controller.controller_bus, self.interp_bus, delay)
 
             eGrayscale.result()
-            eUltrasonic.result()
-            eCamera.result()
+            # eUltrasonic.result()
+            # eCamera.result()
             eInterpreter.result()
             eController.result()
 

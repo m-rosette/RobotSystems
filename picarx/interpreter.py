@@ -38,15 +38,15 @@ class Interpreter(object):
         x1, y1, x2, y2 = self.camera_output
 
     
-    def interpreter_bus(self, grayscale_bus, camera_bus, interpret_bus, delay):
+    def interpreter_bus(self, grayscale_bus, interpret_bus, delay):
         while True:
             gray_list = grayscale_bus.read()
 
-            camera_output = camera_bus.read() # WHERE DO I WRITE THIS INFORMATION TO...? <<<<<<<<<<<<<----------------------
+            # camera_output = camera_bus.read() # WHERE DO I WRITE THIS INFORMATION TO...? <<<<<<<<<<<<<----------------------
 
             correction_dir = self.detect_edge(gray_list)
             interpret_bus.write(correction_dir)
-            interpret_bus.write(camera_output)
+            # interpret_bus.write(camera_output)
             time.sleep(delay)
 
 
