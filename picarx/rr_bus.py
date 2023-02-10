@@ -76,7 +76,7 @@ read_camera = rr.Producer(
 # Wrap the multiplier function into a consumer-producer
 interp_grayscale = rr.ConsumerProducer(
     interpreter.detect_edge,  # function that will process data
-    grayscale_bus,  # input data buses
+    (grayscale_bus, camera_bus, ultrasonic_bus),  # input data buses
     interp_bus,  # output data bus
     delay,  # delay between data control cycles
     terminator_bus,  # bus to watch for termination signal
