@@ -5,7 +5,6 @@ import datetime
 import time
 import math
 import numpy as np
-from lane_follower_helper import HandCodedLaneFollower
 from sensor import Sensor, Camera
 import sys
 sys.path.append(r'/home/marcus/RobotSystems/robot-hat/robot_hat')
