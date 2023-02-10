@@ -1,5 +1,5 @@
 import sys
-sys.path.append(r'/home/marcus/RobotSystems/RossROS/rossros')
+sys.path.append(r'/home/marcus/RobotSystems/RossROS')
 from rossros import Bus, ConsumerProducer, Consumer, Producer, Timer
 import logging
 import time
@@ -28,9 +28,9 @@ class RossROS_Exexute():
     def execute(self):
         while True:
             timer = Timer(self.terminator_bus, 1, 0.01, self.terminator_bus)
-            sensor_producer = Producer(self.sensor, output_busses=self.grayscale_bus, delay=0.1, termination_busses=self.terminator_bus, name="sensor producer")
-            interpreter_cons_prod = ConsumerProducer(self.interpreter, output_busses=self.interp_bus, delay=0.1, termination_busses=self.terminator_bus, name="interpreter consumer producer")
-            controller_consumer = Consumer(self.controller, input_busses=(self.interp_bus, self.ultrasonic_bus), delay=0.1, termination_busses=self.terminator_bus, name="sensor producer")
+            sensor_producer = Producer(self.sensor, output_buses=self.grayscale_bus, delay=0.1, termination_buses=self.terminator_bus, name="sensor producer")
+            interpreter_cons_prod = ConsumerProducer(self.interpreter, output_buses=self.interp_bus, delay=0.1, termination_buses=self.terminator_bus, name="interpreter consumer producer")
+            controller_consumer = Consumer(self.controller, input_buses=(self.interp_bus, self.ultrasonic_bus), delay=0.1, termination_buses=self.terminator_bus, name="sensor producer")
 
             with concurrent.futures.ThreadPoolExecutor(max_workers = 3) as executor:
                 eGrayscale = executor.submit(sensor_producer)
@@ -46,7 +46,7 @@ class RossROS_Exexute():
 
 if __name__ == '__main__':
     executor = RossROS_Exexute()
-    executor.executor()
+    executor.execute()
 
 
 
