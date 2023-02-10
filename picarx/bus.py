@@ -32,6 +32,8 @@ class Exexute():
         self.interpreter = Interpreter()
         self.controller = Controller(self.px)
 
+        self.px.forward(20)
+
     def executor(self):
         delay = 0.1
         while True:
