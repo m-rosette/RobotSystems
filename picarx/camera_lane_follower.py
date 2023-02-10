@@ -23,6 +23,8 @@ class CameraLineFollow(object):
         self.pi_camera = Camera()
         self.camera_output = None
 
+        self.px.set_camera_servo2_angle(-10)
+
         self.current_steer_angle = 0
         self.px.set_dir_servo_angle(0)
 
@@ -51,7 +53,7 @@ class CameraLineFollow(object):
             camera.close()  
 
     def follow_lane(self, frame):
-        cv2.imshow("raw frame", frame)
+        # cv2.imshow("raw frame", frame)
 
         self.pi_camera.frame = frame
         lane_line, lane_image = self.pi_camera.image_processing()
@@ -73,7 +75,7 @@ class CameraLineFollow(object):
         if self.px is not None:
             self.px.set_dir_servo_angle(self.current_steer_angle)
         curr_heading_image = self.display_heading_line(frame, self.current_steer_angle)
-        cv2.imshow("heading", curr_heading_image)
+        # cv2.imshow("heading", curr_heading_image)
         return curr_heading_image
 
     def compute_steering_angle(self, frame, lane_lines):
