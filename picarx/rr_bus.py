@@ -40,7 +40,7 @@ camera_interp = CameraLineFollow()
 
 # Initiate data and termination busses
 grayscale_bus = rr.Bus([0, 0, 0], name="gray bus")
-ultrasonic_bus = rr.Bus(0, name="ultrasonic bus")
+ultrasonic_bus = rr.Bus(20, name="ultrasonic bus")
 camera_bus = rr.Bus(0, "camera bus")
 
 interp_bus = rr.Bus(0, name="interpreter bus")
