@@ -39,7 +39,7 @@ class CameraLineFollow(object):
             self.px.forward(20)
             for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
                 img = frame.array
-                cv2.imshow("mask frame", img)  # OpenCV image show
+                # cv2.imshow("mask frame", img)  # OpenCV image show
 
                 self.follow_lane(img)
                 rawCapture.truncate(0)  # Release cache
@@ -75,7 +75,7 @@ class CameraLineFollow(object):
         if self.px is not None:
             self.px.set_dir_servo_angle(self.current_steer_angle)
         curr_heading_image = self.display_heading_line(frame, self.current_steer_angle)
-        # cv2.imshow("heading", curr_heading_image)
+        cv2.imshow("heading", curr_heading_image)
         return curr_heading_image
 
     def compute_steering_angle(self, frame, lane_lines):
