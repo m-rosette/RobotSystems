@@ -44,6 +44,7 @@ ultrasonic_bus = rr.Bus(0, name="ultrasonic bus")
 camera_bus = rr.Bus(0, "camera bus")
 
 interp_bus = rr.Bus(0, name="interpreter bus")
+ultra_interp_bus = rr.Bus(name="ultra interpreter bus")
 controller_bus = rr.Bus(0, name="controller bus")
 terminator_bus = rr.Bus(0, name="termination bus")
 
@@ -84,9 +85,17 @@ interp_grayscale = rr.ConsumerProducer(
     terminator_bus,  # bus to watch for termination signal
     "Interpret grayscale data")
 
+interp_ultrasonic = rr.ConsumerProducer(
+    interpreter.ultrasonic_stop, # (interpreter.detect_edge, camera_interp.camera_line_follow),  # function that will process data
+    ultrasonic_bus, # (grayscale_bus, camera_bus),  # input data buses
+    ultra_interp_bus,  # output data bus
+    delay,  # delay between data control cycles
+    terminator_bus,  # bus to watch for termination signal
+    "Interpret ultrasonic data")
+
 car_controller = rr.Consumer(
     controller.line_follow, # (controller.line_follow, camera_interp.follow_lane),
-    interp_bus,
+    (interp_bus, ultra_interp_bus),
     delay,
     terminator_bus,
     "Process interp data"

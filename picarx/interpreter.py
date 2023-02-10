@@ -4,9 +4,11 @@ import numpy as np
 
 
 class Interpreter(object):
-    def __init__(self, sensitivity=0, polarity=1):
+    def __init__(self, sensitivity=0, polarity=1, ultrasonic_scale=2):
         self.sensitivity = sensitivity
         self.polarity = polarity
+
+        self.ultrasonic_scale = ultrasonic_scale
 
         self.camera_output = None
 
@@ -37,6 +39,9 @@ class Interpreter(object):
     def image_processing(self):
         x1, y1, x2, y2 = self.camera_output
 
+    def ultrasonic_stop(self, sens_dist):
+        scale_factor = np.tanh(sens_dist/self.ultrasonic_scale)
+        return scale_factor
     
     def interpreter_bus(self, grayscale_bus, interpret_bus, delay):
         while True:
