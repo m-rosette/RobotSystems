@@ -2,123 +2,158 @@ import logging
 from picarx_improved import Picarx
 import cv2
 import datetime
+import time
+import math
+import numpy as np
 from lane_follower_helper import HandCodedLaneFollower
+from sensor import Sensor, Camera
+import sys
+sys.path.append(r'/home/marcus/RobotSystems/robot-hat/robot_hat')
+from robot_hat import ADC, Ultrasonic
+from picamera.array import PiRGBArray
+from picamera import PiCamera
 
 
-_SHOW_IMAGE = True
-
-
-class DeepPiCar(object):
-
-    __INITIAL_SPEED = 0
-    __SCREEN_WIDTH = 320
-    __SCREEN_HEIGHT = 240
-
+class CameraLineFollow(object):
     def __init__(self):
         """ Init camera and wheels"""
-        logging.info('Creating a DeepPiCar...')
+        logging.info('Creating a CameraLineFollow...')
 
         self.px = Picarx()
+        self.pi_camera = Camera()
+        self.camera_output = None
 
         logging.debug('Set up camera')
-        self.camera = cv2.VideoCapture(-1)
-        self.camera.set(3, self.__SCREEN_WIDTH)
-        self.camera.set(4, self.__SCREEN_HEIGHT)
-
-        # Set pan and tilt servo angles
-        self.px.set_camera_servo1_angle(0)
-        self.px.set_camera_servo2_angle(0)
-
-        self.lane_follower = HandCodedLaneFollower(self)
-
-        self.fourcc = cv2.VideoWriter_fourcc(*'XVID')
-        datestr = datetime.datetime.now().strftime("%y%m%d_%H%M%S")
-        self.video_orig = self.create_video_recorder('../data/tmp/car_video%s.avi' % datestr)
-        self.video_lane = self.create_video_recorder('../data/tmp/car_video_lane%s.avi' % datestr)
-        self.video_objs = self.create_video_recorder('../data/tmp/car_video_objs%s.avi' % datestr)
-
-        logging.info('Created a PiCar')
-
-    def create_video_recorder(self, path):
-        return cv2.VideoWriter(path, self.fourcc, 20.0, (self.__SCREEN_WIDTH, self.__SCREEN_HEIGHT))
-
-    def __enter__(self):
-        """ Entering a with statement """
-        return self
-
-    def __exit__(self, _type, value, traceback):
-        """ Exit a with statement"""
-        if traceback is not None:
-            # Exception occurred:
-            logging.error('Exiting with statement with exception %s' % traceback)
-
-        self.cleanup()
-
-    def cleanup(self):
-        """ Reset the hardware"""
-        logging.info('Stopping the car, resetting hardware.')
-        self.px.stop()
-        self.px.set_camera_servo1_angle(0)
-        self.px.set_camera_servo2_angle(0)
+        self.current_steer_angle = 0
         self.px.set_dir_servo_angle(0)
+        time.sleep(0.5)
 
-        self.camera.release()
-        self.video_orig.release()
-        self.video_lane.release()
-        self.video_objs.release()
-        cv2.destroyAllWindows()
+    def camera_line_follow(self):
+        with PiCamera() as camera:
+            camera.resolution = (640, 480)  
+            camera.framerate = 24
+            rawCapture = PiRGBArray(camera, size=camera.resolution)  
+            time.sleep(2)
+            self.px.forward(20)
+            for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
+                img = frame.array
+                cv2.imshow("mask frame", img)  # OpenCV image show
 
-    def drive(self, speed=__INITIAL_SPEED):
-        """ Main entry point of the car, and put it in drive mode
+                self.follow_lane(img)
+                rawCapture.truncate(0)  # Release cache
+                
+                k = cv2.waitKey(1) & 0xFF
+                if k == 27:
+                    break
 
-        Keyword arguments:
-        speed -- speed of back wheel, range is 0 (stop) - 100 (fastest)
+            print('quit ...') 
+            cv2.destroyAllWindows()
+            camera.close()  
+
+    def follow_lane(self, frame):
+        cv2.imshow("raw frame", frame)
+
+        self.pi_camera.frame = frame
+        lane_line, lane_image = self.pi_camera.image_processing()
+        self.camera_output = lane_line
+
+        final_frame = self.steer(lane_image, lane_line)
+
+        return final_frame
+    
+    def steer(self, frame, lane_lines):
+        logging.debug('steering...')
+        if len(lane_lines) == 0:
+            logging.error('No lane lines detected, nothing to do.')
+            return frame
+
+        new_steering_angle = self.compute_steering_angle(frame, lane_lines)
+        self.curr_steering_angle = self.stabilize_steering_angle(self.current_steer_angle, new_steering_angle, len(lane_lines))
+        print(self.current_steer_angle)
+        if self.px is not None:
+            self.px.set_dir_servo_angle(self.current_steer_angle)
+        curr_heading_image = self.display_heading_line(frame, self.current_steer_angle)
+        cv2.imshow("heading", curr_heading_image)
+        return curr_heading_image
+
+    def compute_steering_angle(frame, lane_lines):
+        """ Find the steering angle based on lane line coordinate
+            We assume that camera is calibrated to point to dead center
         """
+        if len(lane_lines) == 0:
+            logging.info('No lane lines detected, do nothing')
+            return 0
 
-        logging.info('Starting to drive at speed %s...' % speed)
-        self.back_wheels.speed = speed
-        i = 0
-        while self.camera.isOpened():
-            _, image_lane = self.camera.read()
-            image_objs = image_lane.copy()
-            i += 1
-            self.video_orig.write(image_lane)
+        height, width, _ = frame.shape
+        if len(lane_lines) == 1:
+            logging.debug('Only detected one lane line, just follow it. %s' % lane_lines[0])
+            x1, _, x2, _ = lane_lines[0][0]
+            x_offset = x2 - x1
+        else:
+            _, _, left_x2, _ = lane_lines[0][0]
+            _, _, right_x2, _ = lane_lines[1][0]
+            camera_mid_offset_percent = 0.02 # 0.0 means car pointing to center, -0.03: car is centered to left, +0.03 means car pointing to right
+            mid = int(width / 2 * (1 + camera_mid_offset_percent))
+            x_offset = (left_x2 + right_x2) / 2 - mid
 
-            image_objs = self.process_objects_on_road(image_objs)
-            self.video_objs.write(image_objs)
-            show_image('Detected Objects', image_objs)
+        # find the steering angle, which is angle between navigation direction to end of center line
+        y_offset = int(height / 2)
 
-            image_lane = self.follow_lane(image_lane)
-            self.video_lane.write(image_lane)
-            show_image('Lane Lines', image_lane)
+        angle_to_mid_radian = math.atan(x_offset / y_offset)  # angle (in radian) to center vertical line
+        angle_to_mid_deg = int(angle_to_mid_radian * 180.0 / math.pi)  # angle (in degrees) to center vertical line
+        steering_angle = angle_to_mid_deg   # this is the steering angle needed by picar front wheel
 
-            if cv2.waitKey(1) & 0xFF == ord('q'):
-                self.cleanup()
-                break
+        logging.debug('new steering angle: %s' % steering_angle)
+        return steering_angle
 
-    def process_objects_on_road(self, image):
-        image = self.traffic_sign_processor.process_objects_on_road(image)
-        return image
+    def stabilize_steering_angle(curr_steering_angle, new_steering_angle, num_of_lane_lines, max_angle_deviation_two_lines=5, max_angle_deviation_one_lane=1):
+        """
+        Using last steering angle to stabilize the steering angle
+        This can be improved to use last N angles, etc
+        if new angle is too different from current angle, only turn by max_angle_deviation degrees
+        """
+        if num_of_lane_lines == 2 :
+            # if both lane lines detected, then we can deviate more
+            max_angle_deviation = max_angle_deviation_two_lines
+        else :
+            # if only one lane detected, don't deviate too much
+            max_angle_deviation = max_angle_deviation_one_lane
+        
+        angle_deviation = new_steering_angle - curr_steering_angle
+        if abs(angle_deviation) > max_angle_deviation:
+            stabilized_steering_angle = int(curr_steering_angle
+                                            + max_angle_deviation * angle_deviation / abs(angle_deviation))
+        else:
+            stabilized_steering_angle = new_steering_angle
+        logging.info('Proposed angle: %s, stabilized angle: %s' % (new_steering_angle, stabilized_steering_angle))
+        return stabilized_steering_angle
 
-    def follow_lane(self, image):
-        image = self.lane_follower.follow_lane(image)
-        return image
+    def display_heading_line(frame, steering_angle, line_color=(0, 0, 255), line_width=5, ):
+        heading_image = np.zeros_like(frame)
+        height, width, _ = frame.shape
 
+        # figure out the heading line from steering angle
+        # heading line (x1,y1) is always center bottom of the screen
+        # (x2, y2) requires a bit of trigonometry
 
-############################
-# Utility Functions
-############################
-def show_image(title, frame, show=_SHOW_IMAGE):
-    if show:
-        cv2.imshow(title, frame)
+        # Note: the steering angle of:
+        # 0-89 degree: turn left
+        # 90 degree: going straight
+        # 91-180 degree: turn right 
+        steering_angle_radian = steering_angle / 180.0 * math.pi
+        x1 = int(width / 2)
+        y1 = height
+        if steering_angle_radian == 0:
+            steering_angle_radian = 0.001
+        x2 = int(x1 - height / 2 / math.tan(steering_angle_radian))
+        y2 = int(height / 2)
 
+        cv2.line(heading_image, (x1, y1), (x2, y2), line_color, line_width)
+        heading_image = cv2.addWeighted(frame, 0.8, heading_image, 1, 1)
 
-def main():
-    with DeepPiCar() as car:
-        car.drive(40)
+        return heading_image
 
 
 if __name__ == '__main__':
-    logging.basicConfig(level=logging.DEBUG, format='%(levelname)-5s:%(asctime)s: %(message)s')
-    
-    main()
+    camera = CameraLineFollow()
+    camera.camera_line_follow()
