@@ -1,6 +1,6 @@
 import sys
-sys.path.append(r'/home/marcus/RobotSystems/RossROS')
-from RossROS import Bus, ConsumerProducer, Consumer, Producer, Timer
+sys.path.append(r'/home/marcus/RobotSystems/RossROS/rossros')
+from rossros import Bus, ConsumerProducer, Consumer, Producer, Timer
 import logging
 import time
 import math
