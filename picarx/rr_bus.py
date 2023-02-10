@@ -85,7 +85,7 @@ interp_grayscale = rr.ConsumerProducer(
     "Interpret grayscale data")
 
 car_controller = rr.Consumer(
-    controller.line_follow,
+    (controller.line_follow, camera_interp.follow_lane),
     interp_bus,
     delay,
     terminator_bus,
