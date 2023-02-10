@@ -6,7 +6,7 @@ import numpy as np
 
 
 class Controller(object):
-    def __init__(self, picar, scale=1):
+    def __init__(self, picar, scale=80):
         self.picar = picar
         self.scale = scale
     
