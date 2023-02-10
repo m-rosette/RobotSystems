@@ -23,9 +23,9 @@ class CameraLineFollow(object):
         self.pi_camera = Camera()
         self.camera_output = None
 
-        logging.debug('Set up camera')
         self.current_steer_angle = 0
         self.px.set_dir_servo_angle(0)
+
         time.sleep(0.5)
 
     def camera_line_follow(self):
@@ -68,7 +68,7 @@ class CameraLineFollow(object):
             return frame
 
         new_steering_angle = self.compute_steering_angle(frame, lane_lines)
-        self.curr_steering_angle = self.stabilize_steering_angle(self.current_steer_angle, new_steering_angle, len(lane_lines))
+        self.current_steer_angle = self.stabilize_steering_angle(self.current_steer_angle, new_steering_angle, len(lane_lines))
         print(self.current_steer_angle)
         if self.px is not None:
             self.px.set_dir_servo_angle(self.current_steer_angle)
@@ -76,7 +76,7 @@ class CameraLineFollow(object):
         cv2.imshow("heading", curr_heading_image)
         return curr_heading_image
 
-    def compute_steering_angle(frame, lane_lines):
+    def compute_steering_angle(self, frame, lane_lines):
         """ Find the steering angle based on lane line coordinate
             We assume that camera is calibrated to point to dead center
         """
@@ -106,7 +106,7 @@ class CameraLineFollow(object):
         logging.debug('new steering angle: %s' % steering_angle)
         return steering_angle
 
-    def stabilize_steering_angle(curr_steering_angle, new_steering_angle, num_of_lane_lines, max_angle_deviation_two_lines=5, max_angle_deviation_one_lane=1):
+    def stabilize_steering_angle(self, curr_steering_angle, new_steering_angle, num_of_lane_lines, max_angle_deviation_two_lines=5, max_angle_deviation_one_lane=1):
         """
         Using last steering angle to stabilize the steering angle
         This can be improved to use last N angles, etc
@@ -128,7 +128,7 @@ class CameraLineFollow(object):
         logging.info('Proposed angle: %s, stabilized angle: %s' % (new_steering_angle, stabilized_steering_angle))
         return stabilized_steering_angle
 
-    def display_heading_line(frame, steering_angle, line_color=(0, 0, 255), line_width=5, ):
+    def display_heading_line(self, frame, steering_angle, line_color=(0, 0, 255), line_width=5, ):
         heading_image = np.zeros_like(frame)
         height, width, _ = frame.shape
 
