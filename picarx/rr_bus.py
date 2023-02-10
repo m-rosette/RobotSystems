@@ -60,12 +60,12 @@ read_grayscale = rr.Producer(
     "Read grayscale data")
 
 # Wrap the ultrasonic sensor into a producer
-read_camera = rr.Producer(
-    sensor.live_camera,  # function that will generate data
-    camera_bus,  # output data bus
-    delay,  # delay between data generation cycles
-    terminator_bus,  # bus to watch for termination signal
-    "Read camera data")
+# read_camera = rr.Producer(
+#     sensor.live_camera,  # function that will generate data
+#     camera_bus,  # output data bus
+#     delay,  # delay between data generation cycles
+#     terminator_bus,  # bus to watch for termination signal
+#     "Read camera data")
 
 # Wrap the ultrasonic sensor into a producer
 read_ultrasonic = rr.Producer(
@@ -77,15 +77,15 @@ read_ultrasonic = rr.Producer(
 
 # Wrap the multiplier function into a consumer-producer
 interp_grayscale = rr.ConsumerProducer(
-    (interpreter.detect_edge, camera_interp.camera_line_follow),  # function that will process data
-    (grayscale_bus, camera_bus),  # input data buses
+    interpreter.detect_edge, # (interpreter.detect_edge, camera_interp.camera_line_follow),  # function that will process data
+    grayscale_bus, # (grayscale_bus, camera_bus),  # input data buses
     interp_bus,  # output data bus
     delay,  # delay between data control cycles
     terminator_bus,  # bus to watch for termination signal
     "Interpret grayscale data")
 
 car_controller = rr.Consumer(
-    (controller.line_follow, camera_interp.follow_lane),
+    controller.line_follow, # (controller.line_follow, camera_interp.follow_lane),
     interp_bus,
     delay,
     terminator_bus,
@@ -96,8 +96,7 @@ car_controller = rr.Consumer(
 
 # Make a printer that returns the most recent wave and product values
 print_buses = rr.Printer(
-    (grayscale_bus, camera_bus, interp_bus, controller_bus),  # input data buses
-    # bMultiplied,      # input data buses
+    (grayscale_bus, interp_bus, controller_bus),# (grayscale_bus, camera_bus, interp_bus, controller_bus),  # input data buses
     0.25,  # delay between printing cycles
     terminator_bus,  # bus to watch for termination signal
     "Print raw and derived data",  # Name of printer
@@ -118,7 +117,7 @@ termination_timer = rr.Timer(
 # Create a list of producer-consumers to execute concurrently
 producer_consumer_list = [read_grayscale,
                           read_ultrasonic,
-                          read_camera,
+                          #read_camera,
                           interp_grayscale,
                           car_controller,
                           termination_timer]
