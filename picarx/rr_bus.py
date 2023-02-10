@@ -25,6 +25,7 @@ from sensor import Sensor
 from interpreter import Interpreter
 from controller import Controller
 from picarx_improved import Picarx
+from camera_lane_follower import CameraLineFollow
 
 
 """ First Part: Signal generation and processing functions """
@@ -32,6 +33,7 @@ picar = Picarx()
 controller = Controller(picar)
 sensor = Sensor()
 interpreter = Interpreter()
+camera_interp = CameraLineFollow()
 
 
 """ Second Part: Create buses for passing data """
@@ -75,7 +77,7 @@ read_camera = rr.Producer(
 
 # Wrap the multiplier function into a consumer-producer
 interp_grayscale = rr.ConsumerProducer(
-    interpreter.detect_edge,  # function that will process data
+    (interpreter.detect_edge, camera_interp.camera_line_follow),  # function that will process data
     (grayscale_bus, camera_bus, ultrasonic_bus),  # input data buses
     interp_bus,  # output data bus
     delay,  # delay between data control cycles
