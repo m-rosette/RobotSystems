@@ -13,7 +13,7 @@ class Controller(object):
     def line_follow(self, direction):
         self.steering_angle = direction * self.scale
         self.picar.set_dir_servo_angle(self.steering_angle)
-        # self.picar.forward(20)
+        self.picar.forward(20)
         return self.steering_angle
     
     def controller_bus(self, bus, delay):
@@ -25,7 +25,7 @@ class Controller(object):
 
 if __name__ == '__main__':
     picar = Picarx()
-    controller = Controller(picar, 5)
+    controller = Controller(picar)
     sensor = Sensor()
     interpreter = Interpreter(0.0, 1)
 
