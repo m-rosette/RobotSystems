@@ -371,7 +371,7 @@ if __name__ == '__main__':
         sys.exit(0)
     
     AK = ArmIK()
-    tracking = ColorTracking(AK=AK)
+    tracking = ColorTracking(AK=AK, target_color='red')
     tracking.initMove()
     tracking.start()
 
