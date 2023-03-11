@@ -14,7 +14,7 @@ from CameraCalibration.CalibrationConfig import *
 
 
 class ColorTracking:
-    def __init__(self, AK, target_color):
+    def __init__(self, AK, target_color=('red',)):
         self.AK = AK
         self.__target_color = target_color
 
@@ -124,7 +124,7 @@ class ColorTracking:
         self.get_roi = False
         self.center_list = []
         self.first_move = True
-        self.__target_color = 'None'
+        self.__target_color = ()
         self.detect_color = 'None'
         self.action_finish = True
         self.start_pick_up = False
@@ -316,7 +316,6 @@ class ColorTracking:
         areaMaxContour = 0
         if not self.start_pick_up:
             for i in color_range:
-                print(color_range)
                 if i in self.__target_color:
                     detect_color = i
                     frame_mask = cv2.inRange(frame_lab, color_range[detect_color][0], color_range[detect_color][1])  # mathematical operation on the original image and mask
