@@ -14,7 +14,7 @@ from CameraCalibration.CalibrationConfig import *
 
 
 class ColorTracking:
-    def __init__(self, AK, target_color='red'):
+    def __init__(self, AK, target_color=('red',)):
         self.AK = AK
 
         self.range_rgb = {
@@ -370,7 +370,6 @@ if __name__ == '__main__':
     if sys.version_info.major == 2:
         print('Please run this program with python3!')
         sys.exit(0)
-    target_color = 'red'
     
     AK = ArmIK()
     tracking = ColorTracking(AK=AK)
