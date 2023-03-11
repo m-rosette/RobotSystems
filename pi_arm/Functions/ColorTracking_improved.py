@@ -157,7 +157,6 @@ class ColorTracking:
         self.is_running = False
         print("ColorTracking Exit")
 
-    # ArmPi move thread 
     def move(self):
         """
         ArmPi move thread
@@ -366,11 +365,12 @@ class ColorTracking:
                         self.center_list = []
         return img
 
+
 if __name__ == '__main__':
     if sys.version_info.major == 2:
         print('Please run this program with python3!')
         sys.exit(0)
-    target_color = ('red', )
+    target_color = 'red'
     
     AK = ArmIK()
     tracking = ColorTracking(AK=AK)
