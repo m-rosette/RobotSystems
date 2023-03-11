@@ -14,8 +14,9 @@ from CameraCalibration.CalibrationConfig import *
 
 
 class ColorTracking:
-    def __init__(self, AK, target_color=('red',)):
+    def __init__(self, AK, target_color):
         self.AK = AK
+        self.__target_color = target_color
 
         self.range_rgb = {
             'red': (0, 0, 255),
@@ -31,9 +32,6 @@ class ColorTracking:
             'green': (-15 + 0.5, 6 - 0.5,  1.5),
             'blue':  (-15 + 0.5, 0 - 0.5,  1.5),
         }
-
-        # Set target color
-        self.target_color = target_color
         
         # Closed gripper angle
         self.servo1 = 500
@@ -126,7 +124,7 @@ class ColorTracking:
         self.get_roi = False
         self.center_list = []
         self.first_move = True
-        self.target_color = ()
+        self.__target_color = self.target_color
         self.detect_color = 'None'
         self.action_finish = True
         self.start_pick_up = False
@@ -318,7 +316,8 @@ class ColorTracking:
         areaMaxContour = 0
         if not self.start_pick_up:
             for i in color_range:
-                if i in self.target_color:
+                print(color_range)
+                if i in self.__target_color:
                     detect_color = i
                     frame_mask = cv2.inRange(frame_lab, color_range[detect_color][0], color_range[detect_color][1])  # mathematical operation on the original image and mask
                     opened = cv2.morphologyEx(frame_mask, cv2.MORPH_OPEN, np.ones((6, 6), np.uint8))  # Opening (morphology)
