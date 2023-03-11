@@ -124,7 +124,7 @@ class ColorTracking:
         self.get_roi = False
         self.center_list = []
         self.first_move = True
-        self.__target_color = self.target_color
+        self.__target_color = None
         self.detect_color = 'None'
         self.action_finish = True
         self.start_pick_up = False
