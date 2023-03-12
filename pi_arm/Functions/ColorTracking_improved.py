@@ -43,7 +43,7 @@ class ColorTracking:
         self.get_roi = False
         self.center_list = []
         self.first_move = True
-        self.detect_color = 'None'           # ---------------------------------------WHEN DOES THIS VALUE GET SET?????????????????????????????????????????????////
+        self.detect_color = 'None' # Is set as an index value and is iterated through the color_range
         self.action_finish = True
         self.start_pick_up = False
         self.start_count_t1 = True
