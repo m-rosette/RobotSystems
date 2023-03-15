@@ -39,7 +39,7 @@ if __name__ == '__main__':
     Board.setBusServoPulse(2, servo2, 100)
     Board.setBusServoPulse(3, servo3, 100)
     Board.setBusServoPulse(4, servo4, 100)
-    # Board.setBusServoPulse(5, servo5, 100)
-    # Board.setBusServoPulse(6, servo6, 100)
+    Board.setBusServoPulse(5, servo5, 100)
+    Board.setBusServoPulse(6, servo6, 100)
 
 
