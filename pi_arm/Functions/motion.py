@@ -32,9 +32,9 @@ if __name__ == '__main__':
     servo1 = 250 # Gripper: 0-full open, 500-close
     servo2 = 500 # Wrist: 500-horizontal, 
     servo3 = 500 # 500: straight out
-    servo4 = 500
-    servo5 = 500
-    servo6 = 500
+    servo4 = 500 # 500: straight out
+    servo5 = 500 # 500: straight up
+    servo6 = 500 # 500: centered
     Board.setBusServoPulse(1, servo1, 100)
     Board.setBusServoPulse(2, servo2, 100)
     Board.setBusServoPulse(3, servo3, 100)
