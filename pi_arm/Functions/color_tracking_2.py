@@ -13,7 +13,7 @@ import HiwonderSDK.Board as Board
 from CameraCalibration.CalibrationConfig import *
 
 
-class Sense():
+class Perception():
     def __init__(self, AK, target_color=('red',)):
         self.AK = AK
         self.__target_color = target_color
@@ -105,10 +105,10 @@ class Sense():
         return frame_lab
     
 
-class Act():
-    def __init__(self, AK, sense, is_running) -> None:
+class Motion():
+    def __init__(self, AK, perception, is_running) -> None:
         self.AK = AK
-        self.sense = sense
+        self.perception = perception
         self.is_running = is_running
 
         self.start_move = True
@@ -140,14 +140,14 @@ class Act():
         img_h, img_w = img.shape[:2]
 
         # Draw crosshairs on image (+ overtop image)
-        self.sense.draw_crosshairs(img, img_h, img_w)
+        self.perception.draw_crosshairs(img, img_h, img_w)
 
         # Make a copy of the input frame
         img_copy = img.copy()
 
-        frame_lab = self.sense.process_frame(img_copy) 
+        frame_lab = self.perception.process_frame(img_copy) 
 
-        area_max_contour, area_max = self.sense.outline_object(frame_lab)
+        area_max_contour, area_max = self.perception.outline_object(frame_lab)
 
         if area_max > 2500:  # find the maximum area
             rect = cv2.minAreaRect(area_max_contour)
