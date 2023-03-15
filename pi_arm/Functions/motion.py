@@ -23,6 +23,14 @@ from CameraCalibration.CalibrationConfig import *
 if __name__ == '__main__':
     arm_kinematics = ArmIK()
 
-    Board.setBusServoPulse(1, 10, 10)
-    Board.setBusServoPulse(2, 500, 500)
-    arm_kinematics.setPitchRangeMoving((0, 10, 10), -30, -30, -90, 1500)
+    # for i 
+    # coordinates = (x, y, z)
+
+    # Board.setBusServoPulse(id, pulse, movetime)
+        # driver serial servo rotation to designation position
+        # :param id: need to driver servo id
+        # :pulse: position
+        # :use_time: time required for rotation
+    Board.setBusServoPulse(1, 20, 10)
+    Board.setBusServoPulse(2, 20, 500)
+    # arm_kinematics.setPitchRangeMoving((0, 10, 10), -30, -30, -90, 1500)
