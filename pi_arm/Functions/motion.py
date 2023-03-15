@@ -31,6 +31,11 @@ if __name__ == '__main__':
         # :param id: need to driver servo id
         # :pulse: position
         # :use_time: time required for rotation
-    Board.setBusServoPulse(1, 20, 10)
-    Board.setBusServoPulse(2, 20, 500)
+
+    servo1 = 50 # Gripper: 0-full open, 500-close
+    servo2 = 50 # Wrist: 500-horizontal, 
+    servo3 = 50
+    Board.setBusServoPulse(1, 20, 100)
+    Board.setBusServoPulse(2, 20, 100)
+    Board.setBusServoPulse(3, 250, 100)
     # arm_kinematics.setPitchRangeMoving((0, 10, 10), -30, -30, -90, 1500)
