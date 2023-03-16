@@ -346,7 +346,13 @@ def run(img):
             [vx,vy,x,y] = cv2.fitLine(cnt, cv2.DIST_L2,0,0.01,0.01)
             lefty = int((-x*vy/vx) + y)
             righty = int(((cols-x)*vy/vx)+y)
-            cv2.line(img,(cols-1,righty),(0,lefty),(0,255,0),2)
+
+            point1 = (cols-1, righty)
+            point2 = (0, lefty)
+            cv2.line(img, point1, point2, (0,255,0), 2)
+
+            angle = round(atan2(point1[1] - point2[1], point1[0] - point2[0]), 1)
+            
 
             roi = getROI(box) # get roi zone
             get_roi = True
@@ -358,7 +364,7 @@ def run(img):
             cv2.drawContours(img, [box], -1, range_rgb[detect_color], 2)
             # cv2.putText(img, '(' + str(angle_of_rot) + ',' + str(world_x) + ',' + str(world_y) + ')', (min(box[0, 0], box[2, 0]), box[2, 1] - 10),
             #         cv2.FONT_HERSHEY_SIMPLEX, 1, range_rgb[detect_color], 1) # draw center position
-            cv2.putText(img, '(' + 'Angle:' + str(angle_of_rot) + ')', (min(box[0, 0], box[2, 0]), box[2, 1] - 10), cv2.FONT_HERSHEY_SIMPLEX, 1, range_rgb[detect_color], 1) # draw center position
+            cv2.putText(img, '(' + 'Angle:' + str(angle) + ')', (min(box[0, 0], box[2, 0]), box[2, 1] - 10), cv2.FONT_HERSHEY_SIMPLEX, 1, range_rgb[detect_color], 1) # draw center position
             distance = math.sqrt(pow(world_x - last_x, 2) + pow(world_y - last_y, 2)) # compare the last coordinate to determine whether to move
             last_x, last_y = world_x, world_y
             track = True
