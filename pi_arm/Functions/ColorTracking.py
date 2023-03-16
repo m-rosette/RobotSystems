@@ -24,6 +24,7 @@ range_rgb = {
     'green': (0, 255, 0),
     'black': (0, 0, 0),
     'white': (255, 255, 255),
+    'yellow': (241, 231, 64),
 }
 
 __target_color = ('red',)
@@ -386,7 +387,7 @@ def run(img):
 if __name__ == '__main__':
     init()
     start()
-    __target_color = ('red', )
+    __target_color = ('yellow', )
     my_camera = Camera.Camera()
     my_camera.camera_open()
     while True:
