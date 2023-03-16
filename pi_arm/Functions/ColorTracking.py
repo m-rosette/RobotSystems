@@ -358,7 +358,7 @@ def run(img):
             cv2.drawContours(img, [box], -1, range_rgb[detect_color], 2)
             # cv2.putText(img, '(' + str(angle_of_rot) + ',' + str(world_x) + ',' + str(world_y) + ')', (min(box[0, 0], box[2, 0]), box[2, 1] - 10),
             #         cv2.FONT_HERSHEY_SIMPLEX, 1, range_rgb[detect_color], 1) # draw center position
-            cv2.putText(img, '(' + 'Angle:' + str(angle_of_rot) + ')', cv2.FONT_HERSHEY_SIMPLEX, 1, range_rgb[detect_color], 1) # draw center position
+            cv2.putText(img, '(' + 'Angle:' + str(angle_of_rot) + ')', (min(box[0, 0], box[2, 0]), box[2, 1] - 10), cv2.FONT_HERSHEY_SIMPLEX, 1, range_rgb[detect_color], 1) # draw center position
             distance = math.sqrt(pow(world_x - last_x, 2) + pow(world_y - last_y, 2)) # compare the last coordinate to determine whether to move
             last_x, last_y = world_x, world_y
             track = True
