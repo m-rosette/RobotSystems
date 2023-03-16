@@ -351,7 +351,7 @@ def run(img):
             point2 = (0, lefty)
             cv2.line(img, point1, point2, (0,255,0), 2)
 
-            angle = round(atan2(point1[1] - point2[1], point1[0] - point2[0]) * 180/pi, 1)
+            angle = atan2(point1[1] - point2[1], point1[0] - point2[0]) * 180/pi
             
 
             roi = getROI(box) # get roi zone
