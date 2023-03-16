@@ -338,7 +338,7 @@ def run(img):
         if area_max > 2500:  # find the maximum area
             rect = cv2.minAreaRect(areaMaxContour)
             box = np.int0(cv2.boxPoints(rect))
-            angle_of_rot = box[2]
+            angle_of_rot = rect[2]
             print(angle_of_rot)
 
             roi = getROI(box) # get roi zone
