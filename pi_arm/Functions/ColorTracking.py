@@ -336,9 +336,9 @@ def run(img):
                 contours = cv2.findContours(closed, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)[-2]  # find countour
                 areaMaxContour, area_max = getAreaMaxContour(contours)  # find the maximum countour
         if area_max > 2500:  # find the maximum area
-            rect = cv2.minAreaRect(areaMaxContour)
+            rect, _, angle_of_rot = cv2.minAreaRect(areaMaxContour)
             box = np.int0(cv2.boxPoints(rect))
-            print(cv2.minAreaRect(areaMaxContour))
+            print(angle_of_rot)
 
             roi = getROI(box) # get roi zone
             get_roi = True
