@@ -34,7 +34,7 @@ if __name__ == '__main__':
     servo3 = 500 # 500: straight out
     servo4 = 500 # 500: straight out
     servo5 = 500 # 500: straight up
-    servo6 = 500 # 500: centered
+    servo6 = 500 # Base: 500-centered
     Board.setBusServoPulse(1, servo1, 100)
     Board.setBusServoPulse(2, servo2, 100)
     Board.setBusServoPulse(3, servo3, 100)

@@ -327,6 +327,7 @@ class ColorTracking:
             if area_max > 2500:  # find the maximum area
                 rect = cv2.minAreaRect(areaMaxContour)
                 box = np.int0(cv2.boxPoints(rect))
+                print(cv2.angle(rect))
 
                 self.roi = getROI(box) # get roi zone
                 self.get_roi = True
