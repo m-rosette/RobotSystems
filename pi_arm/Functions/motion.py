@@ -30,6 +30,13 @@ if __name__ == '__main__':
             servo4 = 250 # 500: straight out
             servo5 = 250 # 500: straight up
             servo6 = 100 # Base: 500-centered
+
+            Board.setBusServoPulse(1, servo1, time_response)
+            Board.setBusServoPulse(2, servo2, time_response)
+            Board.setBusServoPulse(3, servo3, time_response)
+            Board.setBusServoPulse(4, servo4, time_response)
+            Board.setBusServoPulse(5, servo5, time_response)
+            Board.setBusServoPulse(6, servo6, time_response)
         elif response_type == 2:
             servo1 = 950 # Gripper: 0-full open, 500-close
             servo2 = 950 # Wrist: 500-horizontal, 
@@ -37,14 +44,16 @@ if __name__ == '__main__':
             servo4 = 750 # 500: straight out
             servo5 = 250 # 500: straight up
             servo6 = 900 # Base: 500-centered
+
+            Board.setBusServoPulse(1, servo1, time_response)
+            Board.setBusServoPulse(2, servo2, time_response)
+            Board.setBusServoPulse(3, servo3, time_response)
+            Board.setBusServoPulse(4, servo4, time_response)
+            Board.setBusServoPulse(5, servo5, time_response)
+            Board.setBusServoPulse(6, servo6, time_response)
         else:
             print("Invalid response type. Try again")
 
-        Board.setBusServoPulse(1, servo1, time_response)
-        Board.setBusServoPulse(2, servo2, time_response)
-        Board.setBusServoPulse(3, servo3, time_response)
-        Board.setBusServoPulse(4, servo4, time_response)
-        Board.setBusServoPulse(5, servo5, time_response)
-        Board.setBusServoPulse(6, servo6, time_response)
+
 
 
