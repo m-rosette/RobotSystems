@@ -13,32 +13,24 @@ import HiwonderSDK.Board as Board
 from CameraCalibration.CalibrationConfig import *
 
 
-# class Motion():
-#     def __init__(self, AK):
-#         self.AK = AK
-    
-#     def move()
-
-
 if __name__ == '__main__':
-    arm_kinematics = ArmIK()
-
     # Board.setBusServoPulse(id, pulse, movetime)
         # driver serial servo rotation to designation position
         # :param id: need to driver servo id
         # :pulse: position
         # :use_time: time required for rotation
 
-    servo1 = 250 # Gripper: 0-full open, 500-close
-    servo2 = 500 # Wrist: 500-horizontal, 
-    servo3 = 500 # 500: straight out
-    servo4 = 500 # 500: straight out
-    servo5 = 500 # 500: straight up
-    servo6 = 500 # Base: 500-centered
-    Board.setBusServoPulse(1, servo1, 100)
-    Board.setBusServoPulse(2, servo2, 100)
-    Board.setBusServoPulse(3, servo3, 100)
-    Board.setBusServoPulse(4, servo4, 100)
+    time_response = 250
+    servo1 = 500 # Gripper: 0-full open, 500-close
+    servo2 = 50 # Wrist: 500-horizontal, 
+    servo3 = 250 # 500: straight out
+    servo4 = 250 # 500: straight out
+    servo5 = 250 # 500: straight up
+    servo6 = 100 # Base: 500-centered
+    Board.setBusServoPulse(1, servo1, time_response)
+    Board.setBusServoPulse(2, servo2, time_response)
+    Board.setBusServoPulse(3, servo3, time_response)
+    Board.setBusServoPulse(4, servo4, time_response)
     Board.setBusServoPulse(5, servo5, 100)
     Board.setBusServoPulse(6, servo6, 100)
 
