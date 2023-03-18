@@ -341,6 +341,7 @@ def run(img):
             box = np.int0(cv2.boxPoints(rect))
             angle_of_rot = round(rect[2], 1)
             # print(angle_of_rot)
+            
             cnt = contours[0]
             rows,cols = img.shape[:2]
             [vx,vy,x,y] = cv2.fitLine(cnt, cv2.DIST_L2,0,0.01,0.01)
