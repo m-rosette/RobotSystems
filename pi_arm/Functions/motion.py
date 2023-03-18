@@ -19,10 +19,11 @@ if __name__ == '__main__':
         # :param id: need to driver servo id
         # :pulse: position
         # :use_time: time required for rotation
-    response_type = input("Enter response type: 1 = reset, 2 = thank you: ")
-    time_response = 1000
+    
 
     while True:
+        response_type = int(input("Enter response type: 1 = reset, 2 = thank you: "))
+        time_response = 1000
         if response_type == 1:
             servo1 = 950 # Gripper: 0-full open, 500-close
             servo2 = 50 # Wrist: 500-horizontal, 
